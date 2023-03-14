@@ -121,3 +121,31 @@ adding -b 0.0.0.0 if you are running in vagrant.  Then see if you can get to
 the server at localhost:3000.
 
 If any of this fails, post the problem in the slack channel.
+
+## Dockerize App
+
+This section is to know how to use this repository with Docker for a more straightforward installation process. Pre-requisites are only to have Docker working and have the docker-compose command installed.
+
+On the root folder, you need to copy the `.env-template` file to `.env` and modify the values of the environment variables with what you need, but with the default values work fine.
+
+```bash
+cp .env-template .env
+```
+
+Finally, you need to run the `docker-compose` command and wait until the build process finish.
+
+```bash
+docker-compose up --build
+```
+
+### Architecture
+
+The main idea is to have two containers running, one for the database (PostgreSQL) and the second for the project (Ruby/Rails/Nodejs); the database container uses the main PostgreSQL image from Docker Hub, and the second container is based on Alpine Linux distribution from Docker Hub, too. The essential files are:
+
+- `./init.sql` # It contains the initial sql script to create and grant three databases: dev, test, and prod.
+- `./entrypoint.sh` # It contains the command to start the web server rails exec rails s -b 0.0.0.0
+- `./.env` # It contains the environment variables and their values
+- `./Dockerfle` # It contains the definition of project, package installation and build commands
+- `./docker-compose.yml` # It contains the Docker definitions, environment variables, volumes and ports usage
+
+On the last file you can modify the main environment variable for Rails `RAILS_ENV`, by default the value is "development" but you cand change it for test or production based on your requirements.
