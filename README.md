@@ -149,3 +149,15 @@ The main idea is to have two containers running, one for the database (PostgreSQ
 - `./docker-compose.yml` # It contains the Docker definitions, environment variables, volumes and ports usage
 
 On the last file you can modify the main environment variable for Rails `RAILS_ENV`, by default the value is "development" but you cand change it for test or production based on your requirements.
+
+### Automatic Build&Push the Docker image
+
+We can use the Dockerhub or any other container registry to publish this Docker image and anyone can deploy it on their own local computer, VPS (virtual private
+server) or any other cloud resource which can execute containers (GKE, ECS, AKS or something similar).
+
+The firts step of GitHub Actions use the Docker official images to login, to build and push the image into the Dockerhub (container registry); so we need
+to setup two initial secrets values into the [Github repository configuration](https://github.com/adrianagithub/mhproject/settings/secrets/actions) add
+these variables:
+
+- **DOCKERHUB_USERNAME** the value required here is the username of the Dockerhub account (for example `adrianaprojects`)
+- **DOCKERHUB_TOKEN** the value required here is the [Access token from your account](https://hub.docker.com/settings/security)
