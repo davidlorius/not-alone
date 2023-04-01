@@ -161,3 +161,31 @@ these variables:
 
 - **DOCKERHUB_USERNAME** the value required here is the username of the Dockerhub account (for example `adrianaprojects`)
 - **DOCKERHUB_TOKEN** the value required here is the [Access token from your account](https://hub.docker.com/settings/security)
+
+### Automatic Deployment
+
+With help from [Lorius](https://lorius.cloud), the last part of this repository is to deploy the project into a VM (virtual machine) or VPS
+(virtual private server). So, we must cover some prerequisites to execute the deployment part of the GitHub Actions process.
+
+- We have an instance of [PostgreSQL](https://www.postgresql.org/) running on the same VM or another server with the database in the same network scope.
+- We have already installed the [Docker](https://www.docker.com/) engine in the VM.
+- We have already installed [Nginx](https://www.nginx.com/) with the [Let's Encrypt](https://letsencrypt.org/es/) mechanism to secure it.
+- We have already a SSH connection and user configured.
+
+The VM in Lorius uses Ubuntu 22.10 (Kinetic Kudu), so our examples focus on Debian-like commands. The GitHub Actions deployment job requires the next
+secrets values configured to work:
+
+- **ENV_PATH** used to define a temporary path for environment file into the VM
+- **NGINX_PATH** used to define a temporary path for nginx configuration file into the VM
+- **PG_HOST** is the IP or hostname to connect the database
+- **PG_PASS** is the password to connect the database for the default user in the environment file
+- **SSH_HOST** is the IP or hostname of the VM to connect by SSH
+- **SSH_KEY** is the private key of the VM to connect by SSH
+- **SSH_PORT** is the port of the VM to connect by SSH
+- **SSH_USER** is the username of the VM to connect by SSH
+
+References:
+
+- [How to install PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-22-04-quickstart)
+- [How to install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+- [How to install Nginx+Let's Encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-22-04)
